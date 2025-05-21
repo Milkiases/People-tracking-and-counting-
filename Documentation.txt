@@ -1,0 +1,88 @@
+Real-Time People Counter Documentation
+Overview
+This Python script performs real-time people detection, tracking, and counting using a webcam or DroidCam video stream. It leverages the YOLOv8 model for object detection and DeepSORT for tracking unique people across frames.
+
+Features
+Detects people in live video feed.
+
+Tracks each detected person with a unique ID.
+
+Counts the total number of unique people detected.
+
+Switches between webcam and DroidCam source.
+
+Toggle between windowed mode (30% screen size) and full-screen display.
+
+Shows source information and unique IDs visually on the video.
+
+Requirements
+Python 3.x
+
+OpenCV (cv2)
+
+Ultralytics YOLO package (ultralytics)
+
+DeepSORT Realtime (deep_sort_realtime)
+
+NumPy (numpy)
+
+Install dependencies via pip if needed:
+
+bash
+Copy
+Edit
+pip install opencv-python ultralytics deep_sort_realtime numpy
+Configuration
+DROIDCAM_URL: URL for DroidCam video stream.
+
+WINDOW_NAME: Title of the OpenCV display window.
+
+model = YOLO("yolov8s.pt"): Loads the pretrained YOLOv8 small model.
+
+tracker = DeepSort(max_age=30): Initializes DeepSORT tracker with a max age for track persistence.
+
+Key Functions
+open_capture(source)
+Opens the video capture device or stream.
+
+Input: source (int for webcam index or string URL for DroidCam).
+
+Returns: OpenCV VideoCapture object or None if failed.
+
+set_windowed_mode()
+Sets the OpenCV window to normal mode resized to 30% width and 35% height of a 1920x1080 screen.
+
+Adjust screen_res if your screen size differs.
+
+User Controls
+s: Switch between webcam (default) and DroidCam stream.
+
+f: Toggle fullscreen/windowed mode.
+
+q: Quit the application.
+
+How It Works
+Opens video source (webcam or DroidCam).
+
+Reads frames continuously.
+
+Runs YOLOv8 detection to find bounding boxes of people.
+
+Filters detections to only the 'person' class with confidence > 0.4.
+
+Passes detections to DeepSORT to assign and update unique IDs.
+
+Draws bounding boxes and IDs on the frame.
+
+Displays total unique people detected.
+
+Shows current video source label.
+
+Handles user input for switching source, toggling fullscreen, or quitting.
+
+Notes
+The window size in windowed mode is fixed at 30% width and 35% height of 1920x1080 resolution. Change screen_res in set_windowed_mode() to fit your monitor.
+
+Tracking persistence controlled by max_age=30 in DeepSort; adjust as needed for your scenario.
+
+YOLOv8 model file yolov8s.pt must be accessible in the working directory or specify full path.
